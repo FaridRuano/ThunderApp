@@ -12,6 +12,7 @@ import AddInventory from '../components/inventory/add-inventory'
 import InventoryList from '../components/inventory/inventory-list'
 import ProvidersList from '../components/inventory/providers-list'
 import ProductInventory from '../components/inventory/prod-inventory'
+import ProductStocking from '../components/inventory/prod-stocking'
 
 /* Services */
 import AddService from '../components/services/add-service'
@@ -58,6 +59,10 @@ const LayoutRoutes = () => {
 						<Route
 							path={`${process.env.PUBLIC_URL}/inventory/prod-inventory/:id?`}
 							element={<ProductInventory />}
+						/>
+						<Route
+							path={`${process.env.PUBLIC_URL}/inventory/prod-stocking/:id?`}
+							element={<ProductStocking />}
 						/>
 
 						{/* Services */}

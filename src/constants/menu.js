@@ -17,7 +17,8 @@ export const MENUITEMS = [
         title: 'Stock', icon: Box, type: 'sub', active: false, children: [
             { path: '/inventory/inventory-list', title: 'Productos', type: 'link' },
             { path: '/inventory/providers-list', title: 'Proveedores', type: 'link' },
-            { path: '/inventory/prod-inventory', title: 'Inventario', type: 'link' },            
+            { path: '/inventory/prod-inventory', title: 'Inventario', type: 'link' },
+            { path: '/inventory/prod-stocking', title: 'Compras', type: 'link' },            
         ]
     },
     {
