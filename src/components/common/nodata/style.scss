@@ -1,0 +1,46 @@
+.no-data-warp {
+    position: relative;
+    width: 100%;
+    height: 250px;
+}
+
+.no-data-gif {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+@keyframes pixelAnimation {
+    0% {
+      letter-spacing: 0;
+    }
+    50% {
+      letter-spacing: 0.05em;
+    }
+    100% {
+      letter-spacing: 0;
+    }
+  }
+  
+.no-data-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    animation: pixelAnimation 3s infinite;
+    white-space: nowrap;
+    @media screen and (max-width: 500px) {
+        font-size: 13px;
+    }
+}

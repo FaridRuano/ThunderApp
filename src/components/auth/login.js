@@ -4,11 +4,7 @@ import "../../assets/scss/slick.scss";
 import "../../assets/scss/slick-theme.scss";
 import { Card, CardBody, Col, Container, Row } from "reactstrap";
 
-
-
 const Login = () => {	
-	
-
 	return (
 		<Fragment>			
 			<div className="page-wrapper">

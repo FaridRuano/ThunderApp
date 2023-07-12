@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Sidebar from "./common/sidebar_components/sidebar";
+import Sidebar from "./common/sidebar";
 import Footer from "./common/footer";
-import Header from "./common/header_components/header";
+import Header from "./common/header";
 import { Outlet } from "react-router-dom";
 
 const App = (props) => {

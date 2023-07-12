@@ -6,7 +6,6 @@ import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import { toast,ToastContainer } from "react-toastify";
 import axios from 'axios';
 
-
 const LoginTabset = () => {
 	const baseUrl = "http://localhost:8080/modelsThunder/models/th_users/users.php";	
 	const [selectedUser, setSelectedUser] = useState({
@@ -128,9 +127,9 @@ const LoginTabset = () => {
 								</div>
 							</div>
 							<div className="form-button">
-									<Button type="button" color="primary" onClick={()=>requestPost()}>
-										Ingresar
-									</Button>
+								<Button type="button" color="primary" onClick={()=>requestPost()}>
+									Ingresar
+								</Button>
 							</div>						
 						</Form>
 						<ToastContainer theme="colored"/>								

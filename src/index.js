@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.scss";
 import Routers from './routes'
 import PerfectScrollbar from "react-perfect-scrollbar";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Root = () => {
 	return (
