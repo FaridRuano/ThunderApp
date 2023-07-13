@@ -9,10 +9,12 @@ import axios from 'axios'
 import {jsPDF} from 'jspdf'
 import 'jspdf-autotable'
 import { ToastContainer,toast } from "react-toastify";
+import ApiUrls from "../../constants/apiUrl";
 
-const ServiceList = () => {
-	const baseUrl = "http://localhost:8080/modelsThunder/models/th_services/services.php";	
-  const [data, setData] = useState([]);		
+const InventoryList = () => {
+	const baseUrl = ApiUrls.base+"th_inventory/inventory.php"
+
+    const [data, setData] = useState([]);		
 	const [loading, setLoading] = useState(false);
 	const [search, setSearch] = useState("");
 	const [filtered, setFiltered] = useState([]);
@@ -20,7 +22,6 @@ const ServiceList = () => {
 	const col=[		
 		{
 			name: 'Opciones',
-			selector: row => row.quant,
 			cell: (row) => (
 				<div className="i-icon-container">
 					<span className="i-icon-st" onClick={(e) => {						
@@ -34,7 +35,7 @@ const ServiceList = () => {
 							}}
 						/>
 					</span>
-					<Link to={`/services/add-service/${row.id}`}>
+					<Link to={`/inventory/add-inventory/${row.id}`}>
 						<span className="i-icon-st">
 							<i
 								className="fa fa-edit"
@@ -44,18 +45,27 @@ const ServiceList = () => {
 							/>
 						</span>
 					</Link>
-					
-						
+					<Link to={`/inventory/prod-inventory/${row.id}`}>
+						<span className="i-icon-st">
+							<i
+								className="fa fa-archive"
+								style={{									
+									color: "#591BD5",
+								}}
+							/>
+						</span>
+					</Link>						
 				</div>
 				
 			),
-			width: '100px',
+			width: '110px',
+			center: true,
 		},
 		{
 			name: 'ID',
-			selector: row => row.id,	
+			selector: row => row.id,
 			width: '70px',
-			right: true,		
+			left: true,		
 			center: true,
 		},
 		{
@@ -75,7 +85,18 @@ const ServiceList = () => {
 			cell: (row) => (
 				<span>$ {row.price}</span>
 			)
-		},					
+		},
+		{
+			name: 'Cantidad',
+			selector: row => row.quant,
+			sortable: true,
+		},
+		{
+			name: 'Proveedor',
+			selector: row => row.provider,
+			minWidth: '150px',
+			wrap: true,
+		},						
 	]
 
 	const customStyles = {
@@ -97,7 +118,7 @@ const ServiceList = () => {
 				padding: '15px',	
 			},
 		},
-	};
+	}
 
 	const ExpandedComponent = ({ data }) => (
 			<div style={{margin: '10px', marginLeft:'50px',padding: '1opx'}}><span><h2 style={{fontSize: '12px'}}>Descripcion:</h2><p>{JSON.stringify(data.descrip, null, 2)}</p></span></div>		
@@ -129,6 +150,8 @@ const ServiceList = () => {
 		{title: "ID", field: "id"},
 		{title: "Nombre", field: "name"},
 		{title: "Precio", field: "price"},
+		{title: "Cantidad", field: "quant"},
+		{title: "Proveedor", field: "provider"},
 	]
 
 	const downloadPdf=()=>{
@@ -139,16 +162,14 @@ const ServiceList = () => {
 			columns:columnsPDF.map(col => ({ ...col, dataKey: col.field })),
 			body:data,
 		})
-		doc.save('thunder_servicios.pdf')
+		doc.save('thunder_stock.pdf')
 		toast.info("Reporte Completado!");
 	}	
 	
 	useEffect(()=>{
-		requestGet();
 		const result = data.filter(pro =>{
-			return pro.name.toLowerCase().match(search.toLowerCase());
-		});
-
+			return pro.name.toLowerCase().match(search.toLowerCase())
+		})
 		setFiltered(result);
 	},[search])
 
@@ -158,18 +179,15 @@ const ServiceList = () => {
 
 	return (
 		<Fragment>
-			<Breadcrumb title="Servicios"/>
+			<Breadcrumb title="Stock"/>
 			<Container fluid={true}>
 				<Row>
 					<Col sm="12">
-						<Card>
-							<CardHeader>
-								<h5>Lista de Servicios</h5>
-							</CardHeader>
+						<Card>							
 							<CardBody >				
 								<Row xl="2">
 									<Col xs style={{marginBottom: '10px'}}>
-										<Link to="/services/add-service/" className="btn btn-primary">
+										<Link to="/inventory/add-inventory/" className="btn btn-primary">
 											<i className="fa fa-plus"/>
 										</Link>	
 										<span> </span>								
@@ -209,4 +227,4 @@ const ServiceList = () => {
 	);
 };
 
-export default ServiceList;
+export default InventoryList;

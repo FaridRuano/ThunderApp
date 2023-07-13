@@ -1,17 +1,18 @@
-import React, { Fragment,useState, useEffect } from "react";
-import { Button, Card, CardBody, CardHeader, Col, Container, Form, Input, Label, Row } from "reactstrap";
-import Breadcrumb from "../common/breadcrumb";
-import axios from 'axios';
-import {  useNavigate, useParams } from "react-router-dom";
-import { toast,ToastContainer } from "react-toastify";
-import { NumericFormat } from 'react-number-format';
+import React, { Fragment,useState, useEffect } from "react"
+import { Button, Card, CardBody, CardHeader, Col, Container, Form, Input, Label, Row } from "reactstrap"
+import Breadcrumb from "../common/breadcrumb"
+import axios from 'axios'
+import {  useNavigate, useParams } from "react-router-dom"
+import { toast,ToastContainer } from "react-toastify"
+import { NumericFormat } from 'react-number-format'
+import ApiUrls from "../../constants/apiUrl"
 
 const AddInventory = () => {
 
-	const {id = ''}=useParams();
+	const {id = ''}=useParams()
 
-	const baseUrl = "http://localhost:8080/modelsThunder/models/th_inventory/inventory.php"
-    const providersUrl = "http://localhost:8080/modelsThunder/models/th_inventory/providers.php"
+	const baseUrl = ApiUrls.base+"th_inventory/inventory.php"
+    const providersUrl = ApiUrls.base+"th_inventory/providers.php"
 
 	const history = useNavigate()
   	const [data, setData] = useState([])

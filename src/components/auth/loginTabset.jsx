@@ -1,13 +1,14 @@
-import React, { Fragment, useState } from "react";
-import { Tabs, TabList, TabPanel, Tab } from "react-tabs";
-import { User } from "react-feather";
-import {  useNavigate } from "react-router-dom";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
-import { toast,ToastContainer } from "react-toastify";
-import axios from 'axios';
+import React, { Fragment, useState } from "react"
+import { Tabs, TabList, TabPanel, Tab } from "react-tabs"
+import { User } from "react-feather"
+import {  useNavigate } from "react-router-dom"
+import { Button, Form, FormGroup, Input, Label } from "reactstrap"
+import { toast,ToastContainer } from "react-toastify"
+import axios from 'axios'
+import ApiUrls from "../../constants/apiUrl"
 
 const LoginTabset = () => {
-	const baseUrl = "http://localhost:8080/modelsThunder/models/th_users/users.php";	
+	const baseUrl = ApiUrls.base+"th_users/users.php"
 	const [selectedUser, setSelectedUser] = useState({
 		user: '',
 		pass: ''
@@ -20,7 +21,6 @@ const LoginTabset = () => {
 			...prevState,
 			[name]: value,
 		}))		
-		console.log(selectedUser)
 	}
 	const history = useNavigate();
 

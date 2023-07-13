@@ -1,26 +1,28 @@
-import React, { Fragment } from "react";
-import Breadcrumb from "../common/breadcrumb";
-import DataTable from 'react-data-table-component';
-import { Card, CardBody, CardHeader, Col, Container, Row, Input, Button,  } from "reactstrap";
-import { Link } from "react-router-dom";
+import React, { Fragment } from "react"
+import Breadcrumb from "../common/breadcrumb"
+import DataTable from 'react-data-table-component'
+import { Card, CardBody, CardHeader, Col, Container, Row, Input, Button,  } from "reactstrap"
+import { Link } from "react-router-dom"
 import {useState} from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
 import {jsPDF} from 'jspdf'
 import 'jspdf-autotable'
-import { ToastContainer,toast } from "react-toastify";
+import { ToastContainer,toast } from "react-toastify"
+import ApiUrls from "../../constants/apiUrl"
 
-const InventoryList = () => {
-	const baseUrl = "http://localhost:8080/modelsThunder/models/th_inventory/inventory.php";	
-
-    const [data, setData] = useState([]);		
-	const [loading, setLoading] = useState(false);
-	const [search, setSearch] = useState("");
-	const [filtered, setFiltered] = useState([]);
+const ServiceList = () => {
+	const baseUrl = ApiUrls.base+"th_services/services.php"
+	
+  	const [data, setData] = useState([])
+	const [loading, setLoading] = useState(false)
+	const [search, setSearch] = useState("")
+	const [filtered, setFiltered] = useState([])
 
 	const col=[		
 		{
 			name: 'Opciones',
+			selector: row => row.quant,
 			cell: (row) => (
 				<div className="i-icon-container">
 					<span className="i-icon-st" onClick={(e) => {						
@@ -34,7 +36,7 @@ const InventoryList = () => {
 							}}
 						/>
 					</span>
-					<Link to={`/inventory/add-inventory/${row.id}`}>
+					<Link to={`/services/add-service/${row.id}`}>
 						<span className="i-icon-st">
 							<i
 								className="fa fa-edit"
@@ -44,27 +46,18 @@ const InventoryList = () => {
 							/>
 						</span>
 					</Link>
-					<Link to={`/inventory/prod-inventory/${row.id}`}>
-						<span className="i-icon-st">
-							<i
-								className="fa fa-archive"
-								style={{									
-									color: "#591BD5",
-								}}
-							/>
-						</span>
-					</Link>						
+					
+						
 				</div>
 				
 			),
-			width: '110px',
-			center: true,
+			width: '100px',
 		},
 		{
 			name: 'ID',
-			selector: row => row.id,
+			selector: row => row.id,	
 			width: '70px',
-			left: true,		
+			right: true,		
 			center: true,
 		},
 		{
@@ -84,18 +77,7 @@ const InventoryList = () => {
 			cell: (row) => (
 				<span>$ {row.price}</span>
 			)
-		},
-		{
-			name: 'Cantidad',
-			selector: row => row.quant,
-			sortable: true,
-		},
-		{
-			name: 'Proveedor',
-			selector: row => row.provider,
-			minWidth: '150px',
-			wrap: true,
-		},						
+		},					
 	]
 
 	const customStyles = {
@@ -117,7 +99,7 @@ const InventoryList = () => {
 				padding: '15px',	
 			},
 		},
-	}
+	};
 
 	const ExpandedComponent = ({ data }) => (
 			<div style={{margin: '10px', marginLeft:'50px',padding: '1opx'}}><span><h2 style={{fontSize: '12px'}}>Descripcion:</h2><p>{JSON.stringify(data.descrip, null, 2)}</p></span></div>		
@@ -149,8 +131,6 @@ const InventoryList = () => {
 		{title: "ID", field: "id"},
 		{title: "Nombre", field: "name"},
 		{title: "Precio", field: "price"},
-		{title: "Cantidad", field: "quant"},
-		{title: "Proveedor", field: "provider"},
 	]
 
 	const downloadPdf=()=>{
@@ -161,14 +141,16 @@ const InventoryList = () => {
 			columns:columnsPDF.map(col => ({ ...col, dataKey: col.field })),
 			body:data,
 		})
-		doc.save('thunder_stock.pdf')
+		doc.save('thunder_servicios.pdf')
 		toast.info("Reporte Completado!");
 	}	
 	
 	useEffect(()=>{
+		requestGet();
 		const result = data.filter(pro =>{
-			return pro.name.toLowerCase().match(search.toLowerCase())
-		})
+			return pro.name.toLowerCase().match(search.toLowerCase());
+		});
+
 		setFiltered(result);
 	},[search])
 
@@ -178,15 +160,18 @@ const InventoryList = () => {
 
 	return (
 		<Fragment>
-			<Breadcrumb title="Stock"/>
+			<Breadcrumb title="Servicios"/>
 			<Container fluid={true}>
 				<Row>
 					<Col sm="12">
-						<Card>							
+						<Card>
+							<CardHeader>
+								<h5>Lista de Servicios</h5>
+							</CardHeader>
 							<CardBody >				
 								<Row xl="2">
 									<Col xs style={{marginBottom: '10px'}}>
-										<Link to="/inventory/add-inventory/" className="btn btn-primary">
+										<Link to="/services/add-service/" className="btn btn-primary">
 											<i className="fa fa-plus"/>
 										</Link>	
 										<span> </span>								
@@ -226,4 +211,4 @@ const InventoryList = () => {
 	);
 };
 
-export default InventoryList;
+export default ServiceList;

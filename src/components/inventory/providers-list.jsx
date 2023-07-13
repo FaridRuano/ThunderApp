@@ -1,21 +1,23 @@
-import React, { Fragment } from "react";
-import Breadcrumb from "../common/breadcrumb";
-import DataTable from 'react-data-table-component';
-import { Card, CardBody, CardHeader, Col, Container, Row, Input, Button, Label, Form  } from "reactstrap";
-import { Link } from "react-router-dom";
+import React, { Fragment } from "react"
+import Breadcrumb from "../common/breadcrumb"
+import DataTable from 'react-data-table-component'
+import { Card, CardBody, CardHeader, Col, Container, Row, Input, Button, Label, Form  } from "reactstrap"
+import { Link } from "react-router-dom"
 import {useState} from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
 import {jsPDF} from 'jspdf'
 import 'jspdf-autotable'
-import { ToastContainer,toast } from "react-toastify";
-import { NumericFormat } from 'react-number-format';
+import { ToastContainer,toast } from "react-toastify"
+import { NumericFormat } from 'react-number-format'
+import EmptyComponent from '../common/nodata/empty-comp'
+import ApiUrls from "../../constants/apiUrl"
 
 
 const ProvidersList = () => {
-	const baseUrl = "http://localhost:8080/modelsThunder/models/th_inventory/providers.php";	
+	const baseUrl = ApiUrls.base+"th_inventory/providers.php"
 
-  const [data, setData] = useState([]);		
+  	const [data, setData] = useState([]);		
 	const [loading, setLoading] = useState(false);
 	const [search, setSearch] = useState("");
 	const [filtered, setFiltered] = useState([]);
@@ -306,7 +308,7 @@ const ProvidersList = () => {
 										columns={col}
 										data={filtered}
 										pageSize={6}
-										noDataComponent="No hay datos para mostrar"
+										noDataComponent={<EmptyComponent/>}
 										customStyles={customStyles}
 									/>
 								</div>

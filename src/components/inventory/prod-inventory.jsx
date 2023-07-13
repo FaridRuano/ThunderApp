@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { CardHeader, Col, Row, Card, Input } from 'reactstrap'
+import { CardHeader, Col, Row, Card, CardBody } from 'reactstrap'
 import Breadcrumb from "../common/breadcrumb";
 import { Autocomplete } from '@mui/joy';
 import axios from 'axios'
@@ -7,6 +7,8 @@ import { useParams } from 'react-router-dom';
 import ApiUrls from '../../constants/apiUrl';
 import DataTable from 'react-data-table-component';
 import EmptyComponent from '../common/nodata/empty-comp';
+import {Edit, Trash2} from 'react-feather'
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const ProductInventory = () => {
@@ -18,30 +20,102 @@ const ProductInventory = () => {
 	const [loading, setLoading] = useState(false)
   const [prod, setProduct] = useState('')
   const [prodObj, setProdObj] = useState('')
+  const [prodList, setProdList] = useState('')
 
   const reqData=async()=>{
-		setLoading(true);
-        await axios.get(baseUrl+'?METHOD=INDEGET').then(response=>{
+		setLoading(true)
+        await axios.get(baseUrl).then(response=>{
           setData(response.data)
+          reqProd()
           if(id !== ''){          
             const matchProd = response.data.find(obj => obj.id === parseInt(id))
             if(matchProd){
               setProdObj(matchProd)
               setProduct(matchProd.name)
+
+              axios.get(baseUrl + '?id=' + matchProd.id).then(response=>{
+                setProdList(response.data)
+              })
             }
           }
         })
-		setLoading(false);
+		setLoading(false)
   }
+
+  const reqProd=async(pid)=>{
+    setLoading(true)
+    await axios.get(baseUrl + '?id=' + pid).then(response=>{
+      setProdList(response.data)
+    })
+    setLoading(false)
+  }
+
+  const inCols=[		
+		{
+			name: 'Opciones',
+			cell: (row) => (
+				<div className="i-icon-container">
+          <span className="i-icon-st" onClick={(e) => {						
+						if (window.confirm("Estas seguro que deseas eliminar?"))
+						reqDelIte(row.id);
+					}}>
+            <i
+							className="fa fa-trash"
+							style={{								
+								color: "#DF2E2B",
+							}}
+						/>
+          </span>
+				</div>
+				
+			),
+			width: '110px',
+			center: true,
+		},
+		{
+			name: 'Serial',
+			selector: row => row.serial,
+			minWidth: '200px',
+			style: {
+				fontWeight: '700'
+			},
+			wrap: true
+
+		},		
+		{
+			name: 'N. Compra',
+			selector: row => row.comp,						
+		},
+		{
+			name: 'Fecha',
+			selector: row => row.date,
+			sortable: true,
+		},
+				
+	]
+
+  const reqDelIte=async(id)=>{
+    var f = new FormData();
+    f.append("METHOD", "DELITE");
+    f.append("id", id);
+    await axios.post(baseUrl, f).then(response=>{
+        reqData()
+    }).catch(error=>{
+      console.log(error)
+    })
+    toast.success("Eliminado Exitosamente!");
+}
 
   useEffect(()=>{
     reqData()
+    
   },[])
 
   const op_prod = data.map(item => item.name) 
  
   return (
     <Fragment>
+      <ToastContainer theme='dark'/>
       <Breadcrumb title="Inventario" parent="Menu" />
       <Card>
         <CardHeader>
@@ -60,6 +134,7 @@ const ProductInventory = () => {
                   const matchProd = data.find(obj => obj.name === newValue)
                   if(matchProd){
                     setProdObj(matchProd)
+                    reqProd(matchProd.id)
                   }else{
                     setProdObj('')
                   }
@@ -68,17 +143,21 @@ const ProductInventory = () => {
               />  
             </Col>
           </Row>
-          <hr/>          
-          {!prodObj ? (
-            <span>No se ha seleccionado un producto</span>
-          ):(
-            <Fragment>
-              <DataTable
-                noDataComponent={<EmptyComponent/>}
-              />
-            </Fragment>
-          )}
-        </CardHeader>
+          </CardHeader>
+          <CardBody>
+            {!prodObj ? (
+              <span>No se ha seleccionado un producto</span>
+            ):(
+              <Fragment>
+                <DataTable
+                  progressPending={loading}
+                  noDataComponent={<EmptyComponent/>}
+                  data={prodList}
+                  columns={inCols}
+                />
+              </Fragment>
+            )}
+          </CardBody>
       </Card>
     </Fragment>
   )
