@@ -10,6 +10,8 @@ import {jsPDF} from 'jspdf'
 import 'jspdf-autotable'
 import { ToastContainer,toast } from "react-toastify"
 import ApiUrls from "../../constants/apiUrl"
+import LoadingComponent from "../common/loading/loading-comp"
+import EmptyComponent from "../common/nodata/empty-comp"
 
 const ServiceList = () => {
 	const baseUrl = ApiUrls.base+"th_services/services.php"
@@ -52,14 +54,7 @@ const ServiceList = () => {
 				
 			),
 			width: '100px',
-		},
-		{
-			name: 'ID',
-			selector: row => row.id,	
-			width: '70px',
-			right: true,		
-			center: true,
-		},
+		},		
 		{
 			name: 'Nombre',
 			selector: row => row.name,		
@@ -106,25 +101,27 @@ const ServiceList = () => {
 	)
 
 	const requestGet=async()=>{
-		setLoading(true);
+		setLoading(true)
         await axios.get(baseUrl).then(response=>{
             setData(response.data)
 			setFiltered(response.data)
         })
-		setLoading(false);
+		setLoading(false)
     }
 
 	const requestDelete=async(id)=>{
-        var f = new FormData();
-        f.append("METHOD", "DELETE");
-		f.append("id", id);
+		setLoading(true)
+        var f = new FormData()
+        f.append("METHOD", "DELETE")
+		f.append("id", id)
         await axios.post(baseUrl, f).then(response=>{
             requestGet()
         }).catch(error=>{
-          console.log(error);
+          console.log(error)
         })
-		toast.success("Eliminado Exitosamente!");
-        requestGet();
+		toast.success("Eliminado Exitosamente!")
+        requestGet()
+		setLoading(false)
     }
 	
 	const columnsPDF = [
@@ -196,8 +193,9 @@ const ServiceList = () => {
 										expandableRowsComponent={ExpandedComponent}
 										columns={col}
 										data={filtered}
+										progressComponent={<LoadingComponent/>}										
 										pageSize={6}
-										noDataComponent="No hay datos para mostrar"
+										noDataComponent={<EmptyComponent/>}
 										customStyles={customStyles}
 									/>
 								</div>

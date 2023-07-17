@@ -23,7 +23,6 @@ const AddInventory = () => {
 	const [product, setproduct] = useState({
 		name: '',
 		price: '',
-		quant: '',
 		descrip: '',
 		provider: '',
 	});
@@ -38,7 +37,6 @@ const AddInventory = () => {
 				setEdit(true)
 				product.name=prod.name	
 				product.price=prod.price
-				product.quant=prod.quant
 				product.provider=prod.provider
 				product.descrip=prod.descrip
 			}
@@ -100,7 +98,6 @@ const AddInventory = () => {
 			f.append("id", id);
 			f.append("name", product.name);
 			f.append("price", product.price);
-			f.append("quant", product.quant);
 			f.append("descrip", product.descrip);
 			let prod = providers.find(obj => obj.name.toString() === product.provider.toString())	
 			f.append("provider", prod.id);
@@ -170,25 +167,7 @@ const AddInventory = () => {
 												value={product.price || ''}
 												/>	
 										</div>
-									</div>	      
-									<div className="form-group row">
-										<Label className="col-xl-3 col-md-4">
-											Cantidad
-										</Label>
-										<div className="col-md-8">
-                      						<NumericFormat  
-												className="form-control"
-												customInput={Input}
-												name='quant'
-												maxLength={4}												
-												allowNegative={false}
-												decimalScale={0}
-												onChange={handleChange}
-												placeholder="Opcional"
-												value={product.quant || '0'}
-												/>	
-										</div>
-									</div>	   										     	
+									</div>	      																			     	
 									<div className="form-group row">
 										<Label className="col-xl-3 col-md-4">
 											Descripcion

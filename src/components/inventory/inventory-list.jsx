@@ -10,6 +10,8 @@ import {jsPDF} from 'jspdf'
 import 'jspdf-autotable'
 import { ToastContainer,toast } from "react-toastify";
 import ApiUrls from "../../constants/apiUrl";
+import LoadingComponent from '../common/loading/loading-comp'
+import EmptyComponent from '../common/nodata/empty-comp'	
 
 const InventoryList = () => {
 	const baseUrl = ApiUrls.base+"th_inventory/inventory.php"
@@ -60,14 +62,7 @@ const InventoryList = () => {
 			),
 			width: '110px',
 			center: true,
-		},
-		{
-			name: 'ID',
-			selector: row => row.id,
-			width: '70px',
-			left: true,		
-			center: true,
-		},
+		},		
 		{
 			name: 'Nombre',
 			selector: row => row.name,		
@@ -125,25 +120,26 @@ const InventoryList = () => {
 	)
 
 	const requestGet=async()=>{
-		setLoading(true);
+		setLoading(true)
         await axios.get(baseUrl).then(response=>{
             setData(response.data)
 			setFiltered(response.data)
         })
-		setLoading(false);
+		setLoading(false)
     }
 
 	const requestDelete=async(id)=>{
-        var f = new FormData();
-        f.append("METHOD", "DELETE");
-		f.append("id", id);
+		setLoading(true)
+        var f = new FormData()
+        f.append("METHOD", "DELETE")
+		f.append("id", id)
         await axios.post(baseUrl, f).then(response=>{
             requestGet()
         }).catch(error=>{
-          console.log(error);
+          console.log(error)
         })
-		toast.success("Eliminado Exitosamente!");
-        requestGet();
+		toast.success("Eliminado Exitosamente!")
+        requestGet()
     }
 	
 	const columnsPDF = [
@@ -213,7 +209,8 @@ const InventoryList = () => {
 										columns={col}
 										data={filtered}
 										pageSize={6}
-										noDataComponent="No hay datos para mostrar"
+										noDataComponent={<EmptyComponent/>}
+										progressComponent={<LoadingComponent/>}
 										customStyles={customStyles}
 									/>
 								</div>

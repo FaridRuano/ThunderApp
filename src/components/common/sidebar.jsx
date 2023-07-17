@@ -200,7 +200,7 @@ const Sidebar = () => {
 					<ul className="sidebar-menu">
 						<li>
 							<span className="sidebar-header " onClick={()=>{
-								localStorage.removeItem('user_data');
+								localStorage.clear()
 							}}>
 								<Link to="/auth/login"><LogIn/> Cerrar Sesion</Link>
 							</span>

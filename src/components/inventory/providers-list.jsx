@@ -10,17 +10,18 @@ import {jsPDF} from 'jspdf'
 import 'jspdf-autotable'
 import { ToastContainer,toast } from "react-toastify"
 import { NumericFormat } from 'react-number-format'
-import EmptyComponent from '../common/nodata/empty-comp'
 import ApiUrls from "../../constants/apiUrl"
+import EmptyComponent from '../common/nodata/empty-comp'
+import LoadingComponent from "../common/loading/loading-comp"
 
 
 const ProvidersList = () => {
 	const baseUrl = ApiUrls.base+"th_inventory/providers.php"
 
-  	const [data, setData] = useState([]);		
-	const [loading, setLoading] = useState(false);
-	const [search, setSearch] = useState("");
-	const [filtered, setFiltered] = useState([]);
+  	const [data, setData] = useState([])
+	const [loading, setLoading] = useState(false)
+	const [search, setSearch] = useState("")
+	const [filtered, setFiltered] = useState([])
 
   const [provider, setprovider] = useState({
 		name: '',
@@ -42,63 +43,64 @@ const ProvidersList = () => {
 	}
 
   function isRepeated(){
-		let pro = provider.name;
-		let repeatedPro = data.some(value => value.name === pro);	
-		let key = false;
+		let pro = provider.name
+		let repeatedPro = data.some(value => value.name === pro)
+		let key = false
 		if(repeatedPro){
-			toast.error("Proveedor ya existe");
-			key = true;
+			toast.error("Proveedor ya existe")
+			key = true
 		}		
 
-		return key;
+		return key
 	}
 
 	function isEmpty(){
-		let key = false;
-		let name = provider.name;		    
-		let ruc = provider.ruc;		
-		let email = provider.email;		
+		let key = false
+		let name = provider.name
+		let ruc = provider.ruc
+		let email = provider.email
 
 		if(name.length<2){
-			toast.error("Nombre incompleto");
-			key = true;
+			toast.error("Nombre incompleto")
+			key = true
 		}
 		if(ruc.length<5){
-			toast.error("Ruc incompleto");
-			key = true;
+			toast.error("Ruc incompleto")
+			key = true
 		}		
 		if(email.length>0){
-		if(isValidEmail()){
-				key = true;
-		}			
+			if(isValidEmail()){
+				key = true
+			}		
 		}				
-		return key;
+		return key
 	}
 
   function isValidEmail(){
-		let email = provider.email;
-		let validate = /\S+@\S+\.\S+/.test(email);
+		let email = provider.email
+		let validate = /\S+@\S+\.\S+/.test(email)
 		if(!validate){
-			toast.error("Email no es valido");
+			toast.error("Email no es valido")
 		}
-		return !validate;
+		return !validate
 	}
 
 	const requestPost=async()=>{	
-		let emptiness, repeatness = false;
-		emptiness = isEmpty();
-		repeatness = isRepeated();
+		setLoading(true)
+		let emptiness, repeatness = false
+		emptiness = isEmpty()
+		repeatness = isRepeated()
 				
 		if(!emptiness && !repeatness){		
-			var f = new FormData();   
-			f.append("name", provider.name);
-			f.append("address", provider.address);
-			f.append("saler", provider.saler);
-			f.append("phone", provider.phone);
-			f.append("email", provider.email);
-			f.append("country", provider.country);
-			f.append("ruc", provider.ruc);		
-			f.append("METHOD", "ADD");
+			var f = new FormData()
+			f.append("name", provider.name)
+			f.append("address", provider.address)
+			f.append("saler", provider.saler)
+			f.append("phone", provider.phone)
+			f.append("email", provider.email)
+			f.append("country", provider.country)
+			f.append("ruc", provider.ruc)
+			f.append("METHOD", "ADD")
 			await axios.post(baseUrl, f).then(response=>{
 				setprovider({name: '',
 				ruc: '',
@@ -106,13 +108,14 @@ const ProvidersList = () => {
 				address: '',
 				country: '',
 				email: '',
-				saler: '',});
-        requestGet();
+				saler: '',})
+        requestGet()
 			}).catch(error=>{
-			console.log(error);
-			});		      
-			toast.success("Agregado Exitosamente!");
+			console.log(error)
+			}) 
+			toast.success("Agregado Exitosamente!")
 		}
+		setLoading(false)
 	}	
 
 	const col=[		
@@ -221,25 +224,27 @@ const ProvidersList = () => {
 	)
 
 	const requestGet=async()=>{
-		setLoading(true);
+		setLoading(true)
         await axios.get(baseUrl).then(response=>{
-            setData(response.data);
-			setFiltered(response.data);
+            setData(response.data)
+			setFiltered(response.data)
         })
-		setLoading(false);
+		setLoading(false)
     }
 
 	const requestDelete=async(id)=>{
-        var f = new FormData();
-        f.append("METHOD", "DELETE");
-		    f.append("id", id);
+		setLoading(true)
+        var f = new FormData()
+        f.append("METHOD", "DELETE")
+		    f.append("id", id)
         await axios.post(baseUrl, f).then(response=>{
-            setData(data.filter(row=>row.id!==id));
+            setData(data.filter(row=>row.id!==id))
         }).catch(error=>{
-          console.log(error);
+          console.log(error)
         })
-		    toast.success("Eliminado Exitosamente!");
-        requestGet();
+		    toast.success("Eliminado Exitosamente!")
+        requestGet()
+		setLoading(false)
     }
 	
 	const columnsPDF = [
@@ -309,6 +314,7 @@ const ProvidersList = () => {
 										data={filtered}
 										pageSize={6}
 										noDataComponent={<EmptyComponent/>}
+										progressComponent={<LoadingComponent/>}
 										customStyles={customStyles}
 									/>
 								</div>

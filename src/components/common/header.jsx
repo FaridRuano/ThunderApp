@@ -1,49 +1,41 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import axios from 'axios';
 import {  useNavigate } from "react-router-dom";
 import { AlignLeft,	Bell,} from "react-feather";
 
 //images
 import logo from "../../assets/images/thunder-logo2.png";
+import { UserContext } from "../../constants/userData";
 
 const Header = () => {
 	
-	const baseUrl = "";
-	const history = useNavigate();	
-    const [data, setData] = useState([
-		{count: '0'}
-	]);	
+	const [sidebar, setSidebar] = useState(true);			
+    const { userData } = useContext(UserContext)
+	const history = useNavigate()
 
-	const [sidebar, setSidebar] = useState(true);
-	
-	const requestGetD=async()=>{		
-		await axios.get(baseUrl).then(response=>{
-			setData(response.data);		
-	})
-	}	
+	function routeChange() {
+		history(`${process.env.PUBLIC_URL}/`);
+	}
 
 	useEffect(()=>{			
-		/* requestGetD(); */
+		if(userData === null){
+			routeChange()
+		}
     },[])
 		
 	const openCloseSidebar = () => {
 		if (sidebar) {
 			setSidebar(false);
-			document.querySelector(".page-main-header").classList.add("open");
-			document.querySelector(".page-sidebar").classList.add("open");
-			document.querySelector(".footer").classList.add("open");
+			document.querySelector(".page-main-header").classList.add("open")
+			document.querySelector(".page-sidebar").classList.add("open")
+			document.querySelector(".footer").classList.add("open")
 		} else {
 			setSidebar(true);
-			document.querySelector(".page-main-header").classList.remove("open");
-			document.querySelector(".page-sidebar").classList.remove("open");
-			document.querySelector(".footer").classList.remove("open");
+			document.querySelector(".page-main-header").classList.remove("open")
+			document.querySelector(".page-sidebar").classList.remove("open")
+			document.querySelector(".footer").classList.remove("open")
 		}
-	};
-	const routeChange = () => {
-		requestGetD();
-		history(`${process.env.PUBLIC_URL}/actives/list-reactive`);
-	};
-	
+	}		
 
 	return (
 		<Fragment>
@@ -67,10 +59,10 @@ const Header = () => {
 						</div>
 					</div>
 					<div className="nav-right col">						
-							<span onClick={()=>routeChange()}>
+							<span>
 								<Bell  />
 									<span className="badge rounded-pill badge-primary pull-right notification-badge">
-										{data[0].count}
+										0
 									</span>
 								<span className="dot"></span>
 							</span>

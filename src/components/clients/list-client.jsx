@@ -10,15 +10,16 @@ import {jsPDF} from 'jspdf'
 import 'jspdf-autotable'
 import { ToastContainer,toast } from "react-toastify";
 import ApiUrls from '../../constants/apiUrl'
+import LoadingComponent from "../common/loading/loading-comp";
+import EmptyComponent from "../common/nodata/empty-comp";
 
 const List_clients = () => {
-	const baseUrl = ApiUrls.base+"th_clients/clients.php";	
-
+	const baseUrl = ApiUrls.base+"th_clients/clients.php"
 	
-	const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);		
-	const [search, setSearch] = useState("");
-	const [filtered, setFiltered] = useState([]);
+	const [loading, setLoading] = useState(false)
+    const [data, setData] = useState([])
+	const [search, setSearch] = useState("")
+	const [filtered, setFiltered] = useState([])
 
 	const col=[
 		{
@@ -107,32 +108,34 @@ const List_clients = () => {
 	)
 	
 	const requestGet=async()=>{
-		setLoading(true);
+		setLoading(true)
         await axios.get(baseUrl).then(response=>{
-            setData(response.data);
+            setData(response.data)
 			setFiltered(response.data)
         })
-		setLoading(false);
+		setLoading(false)
     }
 
 	const requestDelete=async(id)=>{
-        var f = new FormData();
-        f.append("METHOD", "DELETE");
-		f.append("id", id);
+		setLoading(true)
+        var f = new FormData()
+        f.append("METHOD", "DELETE")
+		f.append("id", id)
         await axios.post(baseUrl, f).then(response=>{
-			requestGet();
-            toast.success("Eliminado Exitosamente!");
+			requestGet()
+            toast.success("Eliminado Exitosamente!")
         }).catch(error=>{
-          console.log(error);
+          console.log(error)
         })
+		setLoading(false)
     }
 
 	useEffect(()=>{
 		const result = data.filter(client =>{
-			return client.name.toLowerCase().match(search.toLowerCase());
-		});
+			return client.name.toLowerCase().match(search.toLowerCase())
+		})
 
-		setFiltered(result);
+		setFiltered(result)
 	},[search])
 
 	useEffect(()=>{
@@ -194,11 +197,12 @@ const List_clients = () => {
 										progressPending={loading}									
 										pagination
 										expandableRows
+										progressComponent={<LoadingComponent/>}
 										expandableRowsComponent={expComp}
 										columns={col}
 										data={filtered}
 										pageSize={6}
-										noDataComponent="No hay datos para mostrar" 
+										noDataComponent={<EmptyComponent/>}
 										customStyles={cusTable}
 									/>
 									<ToastContainer theme="colored"/>

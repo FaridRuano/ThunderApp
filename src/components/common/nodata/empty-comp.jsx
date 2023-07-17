@@ -1,7 +1,6 @@
 import React from 'react'
 import { Fragment } from 'react'
 import NoData from '../../../assets/images/gifs/no-data.gif'
-import './style.scss'
 
 const EmptyComponent = () => {
   return (

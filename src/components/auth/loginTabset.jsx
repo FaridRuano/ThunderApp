@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react"
+import React, { Fragment, useState, useEffect, useContext } from "react"
 import { Tabs, TabList, TabPanel, Tab } from "react-tabs"
 import { User } from "react-feather"
 import {  useNavigate } from "react-router-dom"
@@ -6,14 +6,15 @@ import { Button, Form, FormGroup, Input, Label } from "reactstrap"
 import { toast,ToastContainer } from "react-toastify"
 import axios from 'axios'
 import ApiUrls from "../../constants/apiUrl"
+import { UserContext } from "../../constants/userData"
 
 const LoginTabset = () => {
 	const baseUrl = ApiUrls.base+"th_users/users.php"
+	const { updateUser } = useContext(UserContext)  
 	const [selectedUser, setSelectedUser] = useState({
 		user: '',
 		pass: ''
 	  });		
-	const [remind, setRemind] = useState(false)
 
 	const handleChange=e=>{		
 		const{name, value}=e.target;
@@ -39,9 +40,6 @@ const LoginTabset = () => {
 		}	
 		return key;
 	}
-	const handleCheck=(e)=>{
-		setRemind(!remind)
-	}
 
 	const requestPost=async()=>{			
 		if(!isEmpty()){
@@ -51,11 +49,10 @@ const LoginTabset = () => {
 			f.append("pass", selectedUser.pass);
 			f.append("METHOD", "LOGIN");
 			await axios.post(baseUrl, f).then(response=>{
-				user = response.data.id;						
+				user = response.data.id;	
 				if(user>0){
-					if(remind){
-						localStorage.setItem('user_data',JSON.stringify(response.data));					
-					}
+					console.log(response.data)
+					updateUser(response.data)
 					selectedUser.user='';
 					selectedUser.pass='';
 					toast.success("Inicio Exitoso!");					
@@ -71,10 +68,18 @@ const LoginTabset = () => {
 		}		
 	}			
 
-	const routeChange = () => {
+	const savedData = JSON.parse(localStorage.getItem('THNDRSRDT'))
+
+	function routeChange() {
 		toast.success("Credenciales Correctas");
 		history(`${process.env.PUBLIC_URL}/dashboard`);
 	}
+
+	useEffect(()=>{
+		if(savedData)  {
+		  routeChange()
+		}
+	},[])
 
 	return (
 		<div>
@@ -111,21 +116,7 @@ const LoginTabset = () => {
 									onChange={handleChange}
 									value={selectedUser.pass}
 								/>
-							</FormGroup>
-							<div className="form-terms">
-								<div className="custom-control custom-checkbox me-sm-2">
-									<Label className="d-block">
-										<Input
-											className="checkbox_animated"
-											id="chk-ani2"
-											type="checkbox"
-											value={remind}
-											onChange={()=>handleCheck(true)}											
-										/>
-										Reminder Me{" "}										
-									</Label>
-								</div>
-							</div>
+							</FormGroup>							
 							<div className="form-button">
 								<Button type="button" color="primary" onClick={()=>requestPost()}>
 									Ingresar

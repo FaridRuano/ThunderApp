@@ -5,15 +5,19 @@ import "./index.scss";
 import Routers from './routes'
 import PerfectScrollbar from "react-perfect-scrollbar";
 import 'react-toastify/dist/ReactToastify.css';
+import { UserProvider } from "./constants/userData";
+
 
 const Root = () => {
 	return (
 		<React.StrictMode>
-		<BrowserRouter basename={"/"}>
-			<PerfectScrollbar>
-				<Routers />
-			</PerfectScrollbar>
-		</BrowserRouter>
+			<UserProvider>
+				<BrowserRouter basename={"/"}>
+					<PerfectScrollbar>
+						<Routers />
+					</PerfectScrollbar>
+				</BrowserRouter>
+			</UserProvider>
 		</React.StrictMode>
 	);
 };

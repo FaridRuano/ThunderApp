@@ -1,14 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { CardHeader, Col, Row, Card, CardBody } from 'reactstrap'
-import Breadcrumb from "../common/breadcrumb";
-import { Autocomplete } from '@mui/joy';
+import Breadcrumb from "../common/breadcrumb"
+import { Autocomplete } from '@mui/joy'
 import axios from 'axios'
-import { useParams } from 'react-router-dom';
-import ApiUrls from '../../constants/apiUrl';
-import DataTable from 'react-data-table-component';
-import EmptyComponent from '../common/nodata/empty-comp';
-import {Edit, Trash2} from 'react-feather'
-import { ToastContainer, toast } from 'react-toastify';
+import { useParams } from 'react-router-dom'
+import ApiUrls from '../../constants/apiUrl'
+import DataTable from 'react-data-table-component'
+import EmptyComponent from '../common/nodata/empty-comp'
+import { ToastContainer, toast } from 'react-toastify'
+import LoadingComponent from '../common/loading/loading-comp'
 
 
 const ProductInventory = () => {
@@ -17,29 +17,29 @@ const ProductInventory = () => {
 
 	const {id = ''}=useParams()
   const [data, setData] = useState([])
-	const [loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState(true)
   const [prod, setProduct] = useState('')
   const [prodObj, setProdObj] = useState('')
   const [prodList, setProdList] = useState('')
 
   const reqData=async()=>{
 		setLoading(true)
-        await axios.get(baseUrl).then(response=>{
-          setData(response.data)
-          reqProd()
-          if(id !== ''){          
-            const matchProd = response.data.find(obj => obj.id === parseInt(id))
-            if(matchProd){
-              setProdObj(matchProd)
-              setProduct(matchProd.name)
+      await axios.get(baseUrl).then(response=>{
+        setData(response.data)
+        if(id !== ''){          
+          const matchProd = response.data.find(obj => obj.id === parseInt(id))
+          if(matchProd){
+            setProdObj(matchProd)
+            setProduct(matchProd.name)              
 
-              axios.get(baseUrl + '?id=' + matchProd.id).then(response=>{
-                setProdList(response.data)
-              })
-            }
+            axios.get(baseUrl + '?id=' + matchProd.id).then(response=>{
+              setProdList(response.data)
+            })
           }
-        })
-		setLoading(false)
+        }
+      })	
+    setLoading(false)
+    	
   }
 
   const reqProd=async(pid)=>{
@@ -94,12 +94,12 @@ const ProductInventory = () => {
 				
 	]
 
-  const reqDelIte=async(id)=>{
+  const reqDelIte=async(idd)=>{
     var f = new FormData();
     f.append("METHOD", "DELITE");
-    f.append("id", id);
-    await axios.post(baseUrl, f).then(response=>{
-        reqData()
+    f.append("id", idd);
+    await axios.post(baseUrl, f).then(response=>{      
+      reqProd(prodObj.id)
     }).catch(error=>{
       console.log(error)
     })
@@ -153,6 +153,7 @@ const ProductInventory = () => {
                   progressPending={loading}
                   noDataComponent={<EmptyComponent/>}
                   data={prodList}
+                  progressComponent={<LoadingComponent/>}
                   columns={inCols}
                 />
               </Fragment>
