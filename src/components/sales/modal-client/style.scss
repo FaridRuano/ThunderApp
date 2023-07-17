@@ -1,0 +1,24 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: 999; /* Make sure the overlay appears on top of other elements */
+}
+.modal-warp {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 1000px;
+    transition: .3s ease-out;
+    @media screen and (max-width: 1070px){
+        width: 80%;        
+    }
+    @media screen and (max-width: 500px){
+        width: 98%;        
+    }
+}

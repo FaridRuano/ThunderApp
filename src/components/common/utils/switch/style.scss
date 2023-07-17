@@ -1,0 +1,42 @@
+@import '../../../../assets//scss/theme/variables';
+
+.switch-button {
+    width: 70px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .switch-button.on {
+    background-color: $primary-color;
+  }
+  
+  .switch-button.off {
+    background-color: $secondary-color;
+  }
+  
+  .slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    user-select: none;
+    width: 30px;
+    height: 24px;
+    background-color: white;
+    border-radius: 50px;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s;
+    color: $secondary-color;
+  }
+  
+  .switch-button.on .slider {
+    color: $primary-color;
+    transform: translateX(34px);
+  }

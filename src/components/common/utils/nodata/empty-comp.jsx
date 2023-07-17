@@ -1,6 +1,6 @@
 import React from 'react'
 import { Fragment } from 'react'
-import NoData from '../../../assets/images/gifs/no-data.gif'
+import NoData from '../../../../assets/images/gifs/no-data.gif'
 
 const EmptyComponent = () => {
   return (

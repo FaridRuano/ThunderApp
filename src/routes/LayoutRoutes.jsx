@@ -40,90 +40,89 @@ const LayoutRoutes = () => {
         <Routes>
             <Route element={<App />}>
             <Route
-							path={`${process.env.PUBLIC_URL}/dashboard`}
-							element={<Dashboard />}
-						/>
-						{/* Inventory */}
-						<Route
-							path={`${process.env.PUBLIC_URL}/inventory/add-inventory/:id?`}
-							element={<AddInventory />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/inventory/inventory-list`}
-							element={<InventoryList />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/inventory/providers-list`}
-							element={<ProvidersList />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/inventory/prod-inventory/:id?`}
-							element={<ProductInventory />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/inventory/prod-stocking/:id?`}
-							element={<ProductStocking />}
-						/>
+						path={`${process.env.PUBLIC_URL}/dashboard`}
+						element={<Dashboard />}
+					/>
+					{/* Inventory */}
+					<Route
+						path={`${process.env.PUBLIC_URL}/inventory/add-inventory/:id?`}
+						element={<AddInventory />}
+					/>
+					<Route
+						path={`${process.env.PUBLIC_URL}/inventory/inventory-list`}
+						element={<InventoryList />}
+					/>
+					<Route
+						path={`${process.env.PUBLIC_URL}/inventory/providers-list`}
+						element={<ProvidersList />}
+					/>
+					<Route
+						path={`${process.env.PUBLIC_URL}/inventory/prod-inventory/:id?`}
+						element={<ProductInventory />}
+					/>
+					<Route
+						path={`${process.env.PUBLIC_URL}/inventory/prod-stocking/:id?`}
+						element={<ProductStocking />}
+					/>
 
-						{/* Services */}
-						<Route
-							path={`${process.env.PUBLIC_URL}/services/add-service/:id?`}
-							element={<AddService />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/services/service-list`}
-							element={<ServiceList />}
-						/>
+					{/* Services */}
+					<Route
+						path={`${process.env.PUBLIC_URL}/services/add-service/:id?`}
+						element={<AddService />}
+					/>
+					<Route
+						path={`${process.env.PUBLIC_URL}/services/service-list`}
+						element={<ServiceList />}
+					/>
 
-						{/* Clients */}					
-						<Route
-							path={`${process.env.PUBLIC_URL}/clients/list-clients`}
-							element={<List_clients />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/clients/create-client/:id?`}
-							element={<Create_client />}
-						/>					
+					{/* Clients */}					
+					<Route
+						path={`${process.env.PUBLIC_URL}/clients/list-clients`}
+						element={<List_clients />}
+					/>
+					<Route
+						path={`${process.env.PUBLIC_URL}/clients/create-client/:id?`}
+						element={<Create_client />}
+					/>					
 
-						{/* Sales */}	
-						<Route
-							path={`${process.env.PUBLIC_URL}/sales/list-sales`}
-							element={<List_sales />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/sales/create-sale`}
-							element={<Create_sale />}
-						/>
+					{/* Sales */}	
+					<Route
+						path={`${process.env.PUBLIC_URL}/sales/list-sales`}
+						element={<List_sales />}
+					/>
+					<Route
+						path={`${process.env.PUBLIC_URL}/sales/create-sale`}
+						element={<Create_sale />}
+					/>
 
-						{/* Caja */}
-						<Route
-							path={`${process.env.PUBLIC_URL}/money/add-spend`}
-							element={<AddSpend />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/money/money-list`}
-							element={<MoneyList />}
-						/>
+					{/* Caja */}
+					<Route
+						path={`${process.env.PUBLIC_URL}/money/add-spend`}
+						element={<AddSpend />}
+					/>
+					<Route
+						path={`${process.env.PUBLIC_URL}/money/money-list`}
+						element={<MoneyList />}
+					/>
 
-						{/* Users */}						
-						<Route
-							path={`${process.env.PUBLIC_URL}/users/list-users`}
-							element={<List_users />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/users/create-user/:id?`}
-							element={<Create_user />}
-						/>			
-																							
-						<Route
-							path={`${process.env.PUBLIC_URL}/reports/report`}
-							element={<Reports />}
-						/>
-						<Route 
-							path={`${process.env.PUBLIC_URL}/settings/profile`}
-							element={<Profile />}
-						/>
-												
+					{/* Users */}						
+					<Route
+						path={`${process.env.PUBLIC_URL}/users/list-users`}
+						element={<List_users />}
+					/>
+					<Route
+						path={`${process.env.PUBLIC_URL}/users/create-user/:id?`}
+						element={<Create_user />}
+					/>			
+																						
+					<Route
+						path={`${process.env.PUBLIC_URL}/reports/report`}
+						element={<Reports />}
+					/>
+					<Route 
+						path={`${process.env.PUBLIC_URL}/settings/profile`}
+						element={<Profile />}
+					/>												
                 </Route>
         </Routes>
     </Fragment>

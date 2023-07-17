@@ -6,9 +6,9 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import ApiUrls from '../../constants/apiUrl'
 import DataTable from 'react-data-table-component'
-import EmptyComponent from '../common/nodata/empty-comp'
+import EmptyComponent from '../common/utils/nodata/empty-comp'
 import { ToastContainer, toast } from 'react-toastify'
-import LoadingComponent from '../common/loading/loading-comp'
+import LoadingComponent from '../common/utils/loading/loading-comp'
 
 
 const ProductInventory = () => {

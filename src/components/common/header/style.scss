@@ -1,0 +1,20 @@
+@import '../../../assets//scss/theme/variables';
+
+.btn-header-sale {
+    cursor: pointer;
+    background-size: cover; 
+    background-position: center;    
+    background-color: $primary-color;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    font-weight: 900;
+    transition: .3s ease-out;
+    &:hover {
+        background-image: url("../../../assets/images/gifs/salebtn.gif");
+        transform: scale(1.1);
+    }
+}
+
+

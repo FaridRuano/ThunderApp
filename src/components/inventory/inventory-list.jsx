@@ -10,8 +10,8 @@ import {jsPDF} from 'jspdf'
 import 'jspdf-autotable'
 import { ToastContainer,toast } from "react-toastify";
 import ApiUrls from "../../constants/apiUrl";
-import LoadingComponent from '../common/loading/loading-comp'
-import EmptyComponent from '../common/nodata/empty-comp'	
+import LoadingComponent from '../common/utils/loading/loading-comp'
+import EmptyComponent from '../common/utils/nodata/empty-comp'	
 
 const InventoryList = () => {
 	const baseUrl = ApiUrls.base+"th_inventory/inventory.php"

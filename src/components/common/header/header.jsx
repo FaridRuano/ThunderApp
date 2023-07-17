@@ -1,24 +1,25 @@
-import React, { Fragment, useState, useEffect, useContext } from "react";
-import axios from 'axios';
-import {  useNavigate } from "react-router-dom";
-import { AlignLeft,	Bell,} from "react-feather";
+import React, { Fragment, useState, useEffect, useContext } from "react"
+import {  useNavigate } from "react-router-dom"
+import { AlignLeft} from "react-feather"
+import './style.scss'
 
 //images
-import logo from "../../assets/images/thunder-logo2.png";
-import { UserContext } from "../../constants/userData";
+import logo from "../../../assets/images/thunder-logo2.png"
+import { UserContext } from "../../../constants/userData"
 
 const Header = () => {
 	
-	const [sidebar, setSidebar] = useState(true);			
+	const [sidebar, setSidebar] = useState(true)	
     const { userData } = useContext(UserContext)
 	const history = useNavigate()
 
 	function routeChange() {
-		history(`${process.env.PUBLIC_URL}/`);
+		history(`${process.env.PUBLIC_URL}/auth/login`)
 	}
 
 	useEffect(()=>{			
-		if(userData === null){
+		const savedData = JSON.parse(localStorage.getItem('THNDRSRDT'))
+		if(!savedData){
 			routeChange()
 		}
     },[])
@@ -59,19 +60,16 @@ const Header = () => {
 						</div>
 					</div>
 					<div className="nav-right col">						
+						<button className="btn-header-sale" onClick={()=>history(`${process.env.PUBLIC_URL}/sales/create-sale`)}>
 							<span>
-								<Bell  />
-									<span className="badge rounded-pill badge-primary pull-right notification-badge">
-										0
-									</span>
-								<span className="dot"></span>
+								Vender
 							</span>
+						</button>
 					</div>
 				</div>
 			</div>
 		</Fragment>
-	);
-	
-};
+	)
+}
 
 export default Header;

@@ -8,7 +8,6 @@ const Routers =() =>{
     return(
         <Fragment>
             <Routes>
-                
                 <Route exact path={`${process.env.PUBLIC_URL}/`} element={<Login />} />                    
 					<Route
 						exact

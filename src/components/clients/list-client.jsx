@@ -10,8 +10,8 @@ import {jsPDF} from 'jspdf'
 import 'jspdf-autotable'
 import { ToastContainer,toast } from "react-toastify";
 import ApiUrls from '../../constants/apiUrl'
-import LoadingComponent from "../common/loading/loading-comp";
-import EmptyComponent from "../common/nodata/empty-comp";
+import LoadingComponent from "../common/utils/loading/loading-comp";
+import EmptyComponent from "../common/utils/nodata/empty-comp";
 
 const List_clients = () => {
 	const baseUrl = ApiUrls.base+"th_clients/clients.php"
@@ -67,12 +67,12 @@ const List_clients = () => {
 		{
 			name: 'Email',
 			selector: row => row.email,
-			width: '200px',
+			minWidth: '200px',
 		},
 		{
 			name: 'Telefono',
 			selector: row => row.phone,
-			width: '108px',
+			minWidth: '108px',
 			center: true,
 		},						
 	]
@@ -101,7 +101,7 @@ const List_clients = () => {
 	const expComp = ({ data }) => (
 		<div style={{margin: '10px', marginLeft:'50px',padding: '1opx'}}>
 			<span>
-				<h2 style={{fontSize: '12px'}}>Descripcion:</h2>
+				<h2 style={{fontSize: '12px'}}>Direccion:</h2>
 				<p>{JSON.stringify(data.dir, null, 2)}</p>
 			</span>
 		</div>		

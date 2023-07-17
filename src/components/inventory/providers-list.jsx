@@ -11,8 +11,8 @@ import 'jspdf-autotable'
 import { ToastContainer,toast } from "react-toastify"
 import { NumericFormat } from 'react-number-format'
 import ApiUrls from "../../constants/apiUrl"
-import EmptyComponent from '../common/nodata/empty-comp'
-import LoadingComponent from "../common/loading/loading-comp"
+import EmptyComponent from '../common/utils/nodata/empty-comp'
+import LoadingComponent from "../common/utils/loading/loading-comp"
 
 
 const ProvidersList = () => {

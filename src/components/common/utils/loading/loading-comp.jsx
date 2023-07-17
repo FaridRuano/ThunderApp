@@ -1,6 +1,6 @@
 import React from 'react'
 import { Fragment } from 'react'
-import Loading from '../../../assets/images/gifs/loading.gif'
+import Loading from '../../../../assets/images/gifs/loading.gif'
 
 const LoadingComponent = () => {
   return (

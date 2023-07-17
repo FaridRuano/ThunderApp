@@ -28,10 +28,7 @@ export const MENUITEMS = [
         title: 'Clientes', path:'/clients/list-clients', icon: Users, type: 'link', active: false
     }, 
     {
-        title: 'Ventas', icon: DollarSign, type: 'sub', active: false, children: [
-            { path: '/sales/list-sales', title: 'Lista de Ventas', type: 'link' },
-            { path: '/sales/create-sale', title: 'Nueva Venta', type: 'link' },
-        ]
+        title: 'Ventas', path: '/sales/list-sales', icon: DollarSign, type: 'link', active: false
     },
     {
         title: 'Caja',path:'/money/money-list', icon: BarChart, type: 'link', active: false
