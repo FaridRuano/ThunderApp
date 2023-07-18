@@ -12,6 +12,7 @@ import { ToastContainer,toast } from "react-toastify"
 import ApiUrls from "../../constants/apiUrl"
 import LoadingComponent from "../common/utils/loading/loading-comp"
 import EmptyComponent from "../common/utils/nodata/empty-comp"
+import { ResponsiveEmbed } from "react-bootstrap"
 
 const ListSales = () => {
 	const baseUrl = ApiUrls.base+"th_sales/sales.php"
@@ -20,6 +21,7 @@ const ListSales = () => {
 	const [loading, setLoading] = useState(false)
 	const [search, setSearch] = useState("")
 	const [filtered, setFiltered] = useState([])
+	const [detSale, setDetSale] = useState([])
 
 	const col=[		
 		{
@@ -98,22 +100,63 @@ const ListSales = () => {
 		},
 	};
 
-	const ExpandedComponent = ({ data }) => (
+	const ExpandedComponent = ({ data }) => {
+		const filteredData = detSale.filter(item => item.sid === data.num)
+		return (		
 			<div style={{margin: '10px', marginLeft:'50px',padding: '1opx'}}>
-				<span>
-					<h2 style={{fontSize: '12px'}}>
-						Descripcion:
-					</h2>
-					<p>{JSON.stringify(data.descrip, null, 2)}</p>
-				</span>
+				{filteredData.length !== 0 ? (
+					<div>
+						<Row>
+							<Col>
+								<h6>Producto</h6>
+							</Col>
+							<Col>
+								<h6>Precio</h6>							
+							</Col>
+							<Col>
+								<h6>Cantidad</h6>
+							</Col>
+							<Col>
+								<h6>Subtotal</h6>
+							</Col>
+						</Row>
+						
+						{						
+							filteredData.map((its, i)=>(
+								<Fragment key={i}>
+									<Row>
+										<Col>
+											{its.name}
+										</Col>
+										<Col>
+											{its.price}
+										</Col>
+										<Col>
+											{its.cant}
+										</Col>
+										<Col>
+											{its.sub}
+										</Col>
+									</Row>
+								</Fragment>
+							))
+						}
+					</div>
+				):(
+					<EmptyComponent/>
+				)}
 			</div>		
-	)
+		)
+	}
 
 	const requestGet=async()=>{
 		setLoading(true)
         await axios.get(baseUrl).then(response=>{
             setData(response.data)
 			setFiltered(response.data)
+        })
+		await axios.get(baseUrl +  "?METHOD=DET").then(response=>{
+            setDetSale(response.data)
         })
 		setLoading(false)
     }

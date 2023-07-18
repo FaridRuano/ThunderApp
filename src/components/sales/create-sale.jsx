@@ -152,7 +152,11 @@ const Create_sale = () => {
 			var f = new FormData()
 			f.append("METHOD",'ADD')
 			if(wData){
-				f.append("cli", cli.dni)
+				if(cli){
+					f.append("cli", cli.dni)
+				}else{
+					f.append("cli", cedCli)
+				}
 			}else{
 				f.append("cli", '9999999999999')
 			}
@@ -161,6 +165,7 @@ const Create_sale = () => {
 			f.append("iva", calcIva())
 			f.append("total", calcTotal())
 			f.append("no", num)
+			f.append("items", JSON.stringify(items))	
 			await axios.post(baseUrl + "th_sales/sales.php", f).then(response=>{
 				console.log(response.data)
 				toast.success('Venta exitosa')

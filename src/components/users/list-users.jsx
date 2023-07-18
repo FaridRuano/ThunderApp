@@ -127,22 +127,20 @@ const List_users = () => {
 	
 	const columnsPDF = [
 		{title: "ID", field: "id"},
-		{title: "CED", field: "dni"},
 		{title: "Nombre", field: "name"},
+		{title: "Permisos", field: "permision"},
 		{title: "Email", field: "email"},
-		{title: "Telefono", field: "phone"},
-		{title: "Direccion", field: "dir"},
 	]
 
 	const downloadPdf=()=>{
 		const doc=new jsPDF()
-		doc.text("Thunder Clientes",20,10)
+		doc.text("Thunder Usuarios",20,10)
 		doc.autoTable({
 			theme: "grid",
 			columns:columnsPDF.map(col => ({ ...col, dataKey: col.field })),
 			body:data,
 		})
-		doc.save('thunder_clientes.pdf')
+		doc.save('thunder_usuarios.pdf')
 		toast.info("Reporte Completado!");
 	}
 

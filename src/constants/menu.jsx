@@ -39,7 +39,7 @@ export const MENUITEMS = [
     /* {
         title: 'Reportes',path:'/reports/report', icon: BarChart, type: 'link', active: false
     }, */
-    {   
+    /* {   
         path: '/settings/profile', title: 'Configuracion', icon: Settings, type: 'link', badgeType: 'primary', active: false    
-    }    
+    } */
 ]
