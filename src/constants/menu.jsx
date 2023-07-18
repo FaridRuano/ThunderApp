@@ -10,9 +10,9 @@ import {
 } from 'react-feather';
 
 export const MENUITEMS = [
-    {
+    /* {
         path: '/dashboard', title: 'Tablero', icon: Home, type: 'link', badgeType: 'primary', active: false
-    },
+    }, */
     {
         title: 'Stock', icon: Box, type: 'sub', active: false, children: [
             { path: '/inventory/inventory-list', title: 'Productos', type: 'link' },
@@ -30,16 +30,15 @@ export const MENUITEMS = [
     {
         title: 'Ventas', path: '/sales/list-sales', icon: DollarSign, type: 'link', active: false
     },
-    {
+    /* {
         title: 'Caja',path:'/money/money-list', icon: BarChart, type: 'link', active: false
-
-    },
+    }, */
     {
         title: 'Usuarios', path: '/users/list-users', icon: Briefcase , type: 'link', active: false
     },        
-    {
+    /* {
         title: 'Reportes',path:'/reports/report', icon: BarChart, type: 'link', active: false
-    },
+    }, */
     {   
         path: '/settings/profile', title: 'Configuracion', icon: Settings, type: 'link', badgeType: 'primary', active: false    
     }    

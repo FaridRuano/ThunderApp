@@ -39,9 +39,9 @@ const LayoutRoutes = () => {
     <Fragment>
         <Routes>
             <Route element={<App />}>
-            <Route
+            		<Route
 						path={`${process.env.PUBLIC_URL}/dashboard`}
-						element={<Dashboard />}
+						element={<Create_sale />}
 					/>
 					{/* Inventory */}
 					<Route

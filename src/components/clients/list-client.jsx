@@ -170,9 +170,6 @@ const List_clients = () => {
 				<Row>
 					<Col sm="12">
 						<Card>
-							<CardHeader>
-								<h5>Lista de Clientes</h5>
-							</CardHeader>
 							<CardBody >				
 								<Row xl="2">
 									<Col xs style={{marginBottom: '10px'}}>

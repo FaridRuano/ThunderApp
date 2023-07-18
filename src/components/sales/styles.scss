@@ -1,0 +1,18 @@
+@import '../../assets/scss/theme/variables';
+
+.del-icon { 
+    color: $primary-color;
+    cursor: pointer;
+    transition: .3s ease-out;    
+    &:hover{
+        color: $warning-color;
+    }
+}
+
+.items-data {
+    height: fit-content;
+    overflow: hidden;
+    @media screen and (max-width: 619px){
+        overflow: scroll;        
+    }
+}

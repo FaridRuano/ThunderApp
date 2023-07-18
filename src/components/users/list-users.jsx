@@ -153,9 +153,6 @@ const List_users = () => {
 				<Row>
 					<Col sm="12">
 						<Card>
-							<CardHeader>
-								<h5>Lista de Usuarios</h5>
-							</CardHeader>
 							<CardBody >				
 								<Row xl="2">
 									<Col xs style={{marginBottom: '10px'}}>

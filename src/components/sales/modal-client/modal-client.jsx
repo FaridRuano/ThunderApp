@@ -10,13 +10,11 @@ import { X } from "react-feather";
 
 
 const ModalClient = ({isOpen, onChange, onSubmit }) => {
-    const [isOn, setIsOn] = useState(isOpen)
     const handleSubmit = () => {
         onSubmit(client.dni)
     }
 
     const handleToggle = () => {
-        const newValue = !isOn
         setClient({
             dni: '',
             name: '',
@@ -25,8 +23,7 @@ const ModalClient = ({isOpen, onChange, onSubmit }) => {
             dir: '',
             phone: '',
         })
-        setIsOn(newValue)
-        onChange(newValue)
+        onChange(false)
     }
     const baseUrl = ApiUrls.base+"th_clients/clients.php"
 
@@ -123,8 +120,8 @@ const ModalClient = ({isOpen, onChange, onSubmit }) => {
 
   return (
     <Fragment>
-        <div className='overlay'/>
-        <div className='modal-warp'>
+        <div className={isOpen ? 'overlay' : 'overlay-closed'}/>
+        <div className={isOpen ? 'modal-warp' : 'modal-warp-closed'}>
             <Card>
                 <CardHeader>
                     <Row>
@@ -132,7 +129,7 @@ const ModalClient = ({isOpen, onChange, onSubmit }) => {
                             <h5>Detalles del Cliente</h5>
                         </Col>
                         <Col style={{display:'flex', justifyContent:'end'}}>
-                            <span onClick={handleToggle} style={{cursor:'pointer'}}><X/></span>
+                            <span onClick={()=>onChange(false)} style={{cursor:'pointer'}}><X/></span>
                         </Col>
                     </Row>
                 </CardHeader>

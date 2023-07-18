@@ -51,7 +51,6 @@ const LoginTabset = () => {
 			await axios.post(baseUrl, f).then(response=>{
 				user = response.data.id;	
 				if(user>0){
-					console.log(response.data)
 					updateUser(response.data)
 					selectedUser.user='';
 					selectedUser.pass='';

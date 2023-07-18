@@ -13,8 +13,8 @@ import ApiUrls from "../../constants/apiUrl"
 import LoadingComponent from "../common/utils/loading/loading-comp"
 import EmptyComponent from "../common/utils/nodata/empty-comp"
 
-const ServiceList = () => {
-	const baseUrl = ApiUrls.base+"th_services/services.php"
+const ListSales = () => {
+	const baseUrl = ApiUrls.base+"th_sales/sales.php"
 	
   	const [data, setData] = useState([])
 	const [loading, setLoading] = useState(false)
@@ -37,42 +37,44 @@ const ServiceList = () => {
 								color: "#DF2E2B",
 							}}
 						/>
-					</span>
-					<Link to={`/services/add-service/${row.id}`}>
-						<span className="i-icon-st">
-							<i
-								className="fa fa-edit"
-								style={{									
-									color: "#0ECFEE",
-								}}
-							/>
-						</span>
-					</Link>
-					
-						
+					</span>																
 				</div>
 				
 			),
 			width: '100px',
+			center: true,
 		},		
 		{
-			name: 'Nombre',
-			selector: row => row.name,		
-			minWidth: '200px',
-			style: {
-				fontWeight: '700'
-			},
-			wrap: true
+			name: 'No.',
+			selector: row => row.num,		
+			width: '50px',
 
 		},		
 		{
-			name: 'Precio',
-			selector: row => row.price,
-			sortable: true,
-			cell: (row) => (
-				<span>$ {row.price}</span>
-			)
+			name: 'Cliente',
+			selector: row => row.cli,
+			width: '150px',
 		},					
+		{
+			name: 'Subtotal',
+			selector: row => row.subtotal,
+		},
+		{
+			name: 'Descuento',
+			selector: row => row.desct,
+		},
+		{
+			name: 'Iva',
+			selector: row => row.iva,
+		},
+		{
+			name: 'Total',
+			selector: row => row.total,
+		},
+		{
+			name: 'Fecha',
+			selector: row => row.date,
+		},
 	]
 
 	const customStyles = {
@@ -97,7 +99,14 @@ const ServiceList = () => {
 	};
 
 	const ExpandedComponent = ({ data }) => (
-			<div style={{margin: '10px', marginLeft:'50px',padding: '1opx'}}><span><h2 style={{fontSize: '12px'}}>Descripcion:</h2><p>{JSON.stringify(data.descrip, null, 2)}</p></span></div>		
+			<div style={{margin: '10px', marginLeft:'50px',padding: '1opx'}}>
+				<span>
+					<h2 style={{fontSize: '12px'}}>
+						Descripcion:
+					</h2>
+					<p>{JSON.stringify(data.descrip, null, 2)}</p>
+				</span>
+			</div>		
 	)
 
 	const requestGet=async()=>{
@@ -126,26 +135,26 @@ const ServiceList = () => {
 	
 	const columnsPDF = [
 		{title: "ID", field: "id"},
-		{title: "Nombre", field: "name"},
-		{title: "Precio", field: "price"},
+		{title: "Cliente", field: "cli"},
+		{title: "Total", field: "total"},
 	]
 
 	const downloadPdf=()=>{
 		const doc=new jsPDF()
-		doc.text("Stock Thunder",20,10)
+		doc.text("Ventas Thunder",20,10)
 		doc.autoTable({
 			theme: "grid",
 			columns:columnsPDF.map(col => ({ ...col, dataKey: col.field })),
 			body:data,
 		})
-		doc.save('thunder_servicios.pdf')
+		doc.save('thunder_ventas.pdf')
 		toast.info("Reporte Completado!");
 	}	
 	
 	useEffect(()=>{
 		requestGet();
 		const result = data.filter(pro =>{
-			return pro.name.toLowerCase().match(search.toLowerCase());
+			return pro.cli.match(search);
 		});
 
 		setFiltered(result);
@@ -157,7 +166,7 @@ const ServiceList = () => {
 
 	return (
 		<Fragment>
-			<Breadcrumb title="Servicios"/>
+			<Breadcrumb title="Ventas"/>
 			<Container fluid={true}>
 				<Row>
 					<Col sm="12">
@@ -165,7 +174,7 @@ const ServiceList = () => {
 							<CardBody >				
 								<Row xl="2">
 									<Col xs style={{marginBottom: '10px'}}>
-										<Link to="/services/add-service/" className="btn btn-primary">
+										<Link to="/sales/create-sale" className="btn btn-primary">
 											<i className="fa fa-plus"/>
 										</Link>	
 										<span> </span>								
@@ -206,4 +215,4 @@ const ServiceList = () => {
 	);
 };
 
-export default ServiceList;
+export default ListSales;
