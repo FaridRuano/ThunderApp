@@ -89,30 +89,34 @@ const AddInventory = () => {
 	}
 
 	const requestPost=async()=>{	
-		let emptiness, repeatness = false;
-		emptiness = isEmpty();		
-		repeatness = isRepeated();
+		let emptiness, repeatness = false
+		emptiness = isEmpty()	
+		repeatness = isRepeated()
 				
 		if(!emptiness && !repeatness){		
-			var f = new FormData();   
-			f.append("id", id);
-			f.append("name", product.name);
-			f.append("price", product.price);
-			f.append("descrip", product.descrip);
-			let prod = providers.find(obj => obj.name.toString() === product.provider.toString())	
-			f.append("provider", prod.id);
-			if(edit){
-				f.append("METHOD", "PUT");
+			var f = new FormData()
+			f.append("id", id)
+			f.append("name", product.name)
+			f.append("price", product.price)
+			f.append("descrip", product.descrip)
+			let prod = providers.find(obj => obj.name.toString() === product.provider.toString())
+			if(prod){
+				f.append("provider", prod.id)
 			}else{
-				f.append("METHOD", "ADD");
+				f.append("provider", '0');
+			}
+			if(edit){
+				f.append("METHOD", "PUT")
+			}else{
+				f.append("METHOD", "ADD")
 			}
 			await axios.post(baseUrl, f).then(response=>{
-				setproduct('');
+				setproduct('')
 			}).catch(error=>{
-			console.log(error);
+			console.log(error)
 			});		
-			toast.success("Agregado Exitosamente!");
-			routeChange();
+			toast.success("Agregado Exitosamente!")
+			routeChange()
 		}
 	}	
 

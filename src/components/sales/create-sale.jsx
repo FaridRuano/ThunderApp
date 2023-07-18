@@ -32,9 +32,16 @@ const Create_sale = () => {
 	//Modal Submit
 	//Cedula modal
 	const [cedCli, setCedCli] = useState('')
-	const handleFormSubmit = (value) => {
+	const handleFormSubmit = async(value) => {
 		setCedCli(value)		
 		reqData()
+		const res = await axios.get(baseUrl + "th_clients/clients.php")
+		const matchCli = res.find(obj => obj.dni === value)
+		if(matchCli){
+			setCli(matchCli)
+		}else{
+			setCli(null)
+		}
 		toast.success('Cliente agregado')
 	}
 
@@ -223,9 +230,41 @@ const Create_sale = () => {
 										/>
 									</Col>
 									<Col>
-										<button className="btn btn-primary" onClick={()=>setMOpen(true)}><UserPlus/></button>
+										<button className="btn btn-primary" onClick={()=>{
+											setMOpen(true)
+											setCedCli('')
+											setCli(null)
+											setCed('')
+										}
+											}>
+												<UserPlus/>
+										</button>
 									</Col>
 								</Row>
+								<div style={{height: '10px'}}/>
+								{cli? (
+									<Fragment>
+										<Row>
+											<Col>
+												<p>Nombre</p>
+											</Col>
+											<Col>
+												<p>Email</p>
+											</Col>
+										</Row>
+
+										<Row>
+											<Col>									
+												{cli.name}
+											</Col>
+											<Col>
+												{cli.email}
+											</Col>										
+										</Row>
+									</Fragment>
+								):(
+									<Fragment/>
+								)}									
 							</Fragment>
 						):
 						(

@@ -5,6 +5,7 @@ import { LogIn } from "react-feather";
 
 // image import
 import logo from "../../assets/images/thunder-logo.png";
+import { useContext } from "react";
 
 const Sidebar = () => {
 	const [mainmenu, setMainMenu] = useState(MENUITEMS);

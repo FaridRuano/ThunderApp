@@ -17,7 +17,7 @@ import LoadingComponent from "../common/utils/loading/loading-comp"
 
 const ProvidersList = () => {
 	const baseUrl = ApiUrls.base+"th_inventory/providers.php"
-
+	const [isEdit, setEdit] = useState(false)
   	const [data, setData] = useState([])
 	const [loading, setLoading] = useState(false)
 	const [search, setSearch] = useState("")
@@ -46,6 +46,9 @@ const ProvidersList = () => {
 		let pro = provider.name
 		let repeatedPro = data.some(value => value.name === pro)
 		let key = false
+		if(isEdit){
+			return key
+		}
 		if(repeatedPro){
 			toast.error("Proveedor ya existe")
 			key = true
@@ -85,6 +88,16 @@ const ProvidersList = () => {
 		return !validate
 	}
 
+	const defProv=()=>{
+		setprovider({name: '',
+				ruc: '',
+				phone: '',
+				address: '',
+				country: '',
+				email: '',
+				saler: '',})
+	}
+
 	const requestPost=async()=>{	
 		setLoading(true)
 		let emptiness, repeatness = false
@@ -100,20 +113,23 @@ const ProvidersList = () => {
 			f.append("email", provider.email)
 			f.append("country", provider.country)
 			f.append("ruc", provider.ruc)
-			f.append("METHOD", "ADD")
+			if(!isEdit){
+				f.append("METHOD", "ADD")
+			}else{
+				f.append("METHOD", "PUT")
+			}
 			await axios.post(baseUrl, f).then(response=>{
-				setprovider({name: '',
-				ruc: '',
-				phone: '',
-				address: '',
-				country: '',
-				email: '',
-				saler: '',})
-        requestGet()
+				if(isEdit){
+					toast.success("Editado Correctamente!")
+				}else{
+					toast.success("Agregado Correctamente!")
+				}
+				setEdit(false)
+				defProv()
+        		requestGet()
 			}).catch(error=>{
 			console.log(error)
 			}) 
-			toast.success("Agregado Exitosamente!")
 		}
 		setLoading(false)
 	}	
@@ -138,21 +154,23 @@ const ProvidersList = () => {
 							}}
 						/>
 					</span>
-					<Link to="/inventory/add-inventory">
-						<span style={{cursor:'pointer'}}>
-							<i
-								className="fa fa-edit"
-								style={{
-									width: 35,
-									fontSize: 20,
-									padding: 11,
-									color: "#0ECFEE",
-								}}
-							/>
-						</span>
-					</Link>
-					
-						
+					<span style={{cursor:'pointer'}} onClick={()=>{
+						const prov = data.find(item => item.id = row.id)
+						if(prov){
+							setprovider(prov)
+							setEdit(true)
+						}
+					}}>
+						<i
+							className="fa fa-edit"
+							style={{
+								width: 35,
+								fontSize: 20,
+								padding: 11,
+								color: "#0ECFEE",
+							}}
+						/>
+					</span>											
 				</div>
 				
 			),
@@ -341,6 +359,7 @@ const ProvidersList = () => {
 											name="name"
 											onChange={handleChange}
                      						value={ provider.name || "" }
+											disabled={isEdit}
 											/>											
 										</div>																			
 									</div>		
@@ -358,6 +377,7 @@ const ProvidersList = () => {
                         						allowLeadingZeros={true}
 												decimalScale={0}
 												onChange={handleChange}
+												disabled={isEdit}
 												value={ provider.ruc || "" }
 												/>	
 										</div>
@@ -443,10 +463,20 @@ const ProvidersList = () => {
 											
 											</select>
 										</div>
-									</div>										
-									<Button type="button" color="secondary" onClick={requestPost}>
-										Guardar
-									</Button>	
+									</div>								
+									<div style={{display:'flex',gap:'1rem'}}>
+										<Button type="button" color="secondary" onClick={()=>{
+											requestPost()											
+										}}>
+											{isEdit ? 'Editar' : 'Guardar'}
+										</Button>	
+										<Button type="button" color="primary" onClick={()=>{
+											setEdit(false)
+											defProv()
+										}}>
+											Descartar
+										</Button>
+									</div>		
 									<ToastContainer theme="colored"/>								
 								</Form>
 							</CardBody>

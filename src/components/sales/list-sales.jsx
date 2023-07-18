@@ -195,10 +195,11 @@ const ListSales = () => {
 	}	
 	
 	useEffect(()=>{
-		requestGet();
+		requestGet()
 		const result = data.filter(pro =>{
-			return pro.cli.match(search);
-		});
+			return pro.cli.toLowerCase().match(search.toLowerCase())
+		})
+		console.log(result)
 
 		setFiltered(result);
 	},[search])

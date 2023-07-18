@@ -1,10 +1,7 @@
 import {
-    Home,
     DollarSign,
     Users,
     Box,
-    BarChart,
-    Settings,
     Briefcase,
     Zap
 } from 'react-feather';
