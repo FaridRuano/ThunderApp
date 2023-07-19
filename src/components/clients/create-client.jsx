@@ -54,10 +54,14 @@ const Create_client = () => {
 	}
 
 	function contrData(){
-		if(client.dni.length<10){
+		if(client.dni.length <10){
 			toast.error("Cedula o Ruc incompleto")
 			return false
 		}else{
+			if(!p_comprobar_numero_cedula(client.dni)){
+				toast.error("Cedula o Ruc no es valido")
+				return false
+			}
 			if(!edit){
 				if(data.some(value => value.dni === client.dni)){
 					toast.error("Cedula o Ruc ya existe")				
@@ -120,6 +124,37 @@ const Create_client = () => {
 			})
 			history(`${process.env.PUBLIC_URL}/clients/list-clients`)
 		}		
+	}
+
+	//Comprobar numeor de cedula
+	function p_comprobar_numero_cedula(cedula) {
+		if (typeof(cedula) === 'string') {
+			// Verifica si la cédula tiene 10 o 13 dígitos
+			if (cedula.length === 10 || cedula.length === 13) {
+				// Si tiene 13 dígitos, verifica que los últimos tres sean '001'
+				if (cedula.length === 13 && cedula.slice(-3) !== '001') {
+					return false; // Los últimos tres dígitos no son '001', la cédula no es válida
+				}
+				
+				// Obtiene los primeros 10 dígitos de la cédula
+				var digitos = cedula.slice(0, 10).split('').map(Number);
+	
+				// Obtiene el código de la provincia
+				var codigo_provincia = digitos[0] * 10 + digitos[1];
+	
+				// Comprueba si el código de la provincia es válido (entre 1 y 24) y si el tercer dígito es menor a 6
+				if (codigo_provincia >= 1 && codigo_provincia <= 24 && digitos[2] < 6) {
+					var digito_verificador = digitos.pop();
+	
+					var digito_calculado = digitos.reduce(function(valorPrevio, valorActual, indice) {
+						return valorPrevio - (valorActual * (2 - indice % 2)) % 9 - (valorActual === 9) * 9;
+					}, 1000) % 10;
+	
+					return (digito_calculado === digito_verificador);
+				}
+			}
+		}
+		return false;
 	}
 
 	useEffect(()=>{
