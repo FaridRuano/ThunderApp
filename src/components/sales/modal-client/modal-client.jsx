@@ -11,7 +11,7 @@ import { X } from "react-feather";
 
 const ModalClient = ({isOpen, onChange, onSubmit }) => {
     const handleSubmit = () => {
-        onSubmit(client.dni)
+        onSubmit(client)
     }
 
     const handleToggle = () => {

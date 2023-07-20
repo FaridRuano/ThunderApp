@@ -11,6 +11,7 @@ import axios from 'axios'
 import { NumericFormat } from "react-number-format"
 import './styles.scss'
 
+
 const Create_sale = () => {
 	//Url Api
 	const baseUrl = ApiUrls.base
@@ -20,6 +21,7 @@ const Create_sale = () => {
 
 	//Switch Data
 	const [wData, setWData] = useState(false)
+
 	const handleSwitchChange = (newValue) => {
 		setWData(newValue)
 	}
@@ -33,15 +35,9 @@ const Create_sale = () => {
 	//Cedula modal
 	const [cedCli, setCedCli] = useState('')
 	const handleFormSubmit = async(value) => {
-		setCedCli(value)		
-		reqData()
-		const res = await axios.get(baseUrl + "th_clients/clients.php")
-		const matchCli = res.find(obj => obj.dni === value)
-		if(matchCli){
-			setCli(matchCli)
-		}else{
-			setCli(null)
-		}
+		setCedCli(value.dni)		
+		setCli(value)
+		reqData()		
 		toast.success('Cliente agregado')
 	}
 
@@ -103,26 +99,27 @@ const Create_sale = () => {
 	const [items, setItems] = useState([])
 	const addItem = () => {
 		const newItem = proData.find(obj => obj.name === prod)
-
+		let subtotal = newItem.price
 		const existingItem = items.find(item => item.name === newItem.name)
 
 		if (existingItem) {
+			subtotal = existingItem.price * (existingItem.cant+1)
 			const updatedItems = items.map(item => {
 			  if (item.name === newItem.name) {
-				return { ...item, cant: item.cant + 1 }
+				return { ...item, cant: item.cant + 1, subtotal: parseFloat(subtotal.toFixed(2))}
 			  }
 			  return item
 			})
 
 		setItems(updatedItems)
 		}else{
-			setItems([...items, { ...newItem, cant: 1 }]);
+			setItems([...items, { ...newItem, cant: 1, subtotal: subtotal }]);
 		}
 	}
 	const hanItemsCant = (itemNa, newQuantity) => {
 		const updatedItems = items.map(item => {
 		  if (item.name === itemNa) {
-			return { ...item, cant: newQuantity }
+			return { ...item, cant: newQuantity, subtotal: parseFloat((newQuantity * item.price).toFixed(2)) }
 		  }
 		  return item
 		})
@@ -183,6 +180,36 @@ const Create_sale = () => {
 			toast.warn('No hay productos')
 		}
     }
+
+	const datos_factura = {
+		factura_recibida: {
+			fecha: null, 
+			clave_acceso: null, 
+			numero_factura: num, 
+			subtotal: calcSubTotal(),
+			total_iva: calcIva(), 
+			total: calcTotal(),
+		},
+		cliente:{
+			id_cliente: cli ? (cli.dni.length > 10 ? '04' : '05') : '07',
+			nombre: wData ? (cli?cli.name.split(' ')[0]:'CONSUMIDOR') : 'CONSUMIDOR',
+			apelllido: wData ? (cli?(cli.name.split(' '))[1]:'FINAL'): 'FINAL',
+			numero_identificacion: cli ? cli.dni : '9999999999999',
+			direccion_cliente: cli ? cli.dir : 'Ambato',
+			email: cli ? cli.email : null,			
+		},
+		detalles_factura : items			
+	}
+
+	const test = () => {
+		axios.post('http://localhost:5000/send-xml', datos_factura)
+			.then((response) => {
+			console.log(response.data) 
+			})
+			.catch((error) => {
+			console.error(error) 
+		})
+	}
 
 	useEffect(()=>{
 		reqData()
@@ -255,7 +282,7 @@ const Create_sale = () => {
 
 										<Row>
 											<Col>									
-												{cli.name}
+												{cli.last ? cli.name+' '+cli.last : cli.name}
 											</Col>
 											<Col>
 												{cli.email}
@@ -456,6 +483,12 @@ const Create_sale = () => {
 								}
 								}} disabled={items.length > 0 ? false : true}>Guardar</Button>
 						</Row>
+						<div style={{height:'10px'}}/>
+						<Row>
+							<Button color="warning" onClick={()=>{
+									test()
+								}}>Guardar</Button>
+						</Row>
 					</CardBody>
 				</Card>
 			</Container>			
@@ -465,4 +498,4 @@ const Create_sale = () => {
 	);
 };
 
-export default Create_sale;
+export default Create_sale
