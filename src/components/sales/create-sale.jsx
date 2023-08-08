@@ -171,6 +171,9 @@ const Create_sale = () => {
 			f.append("no", num)
 			f.append("items", JSON.stringify(items))	
 			await axios.post(baseUrl + "th_sales/sales.php", f).then(response=>{
+				if(!wFact){
+					test()
+				}
 				console.log(response.data)
 				toast.success('Venta exitosa')
 			}).catch(err=>{
@@ -483,12 +486,7 @@ const Create_sale = () => {
 								}
 								}} disabled={items.length > 0 ? false : true}>Guardar</Button>
 						</Row>
-						<div style={{height:'10px'}}/>
-						<Row>
-							<Button color="warning" onClick={()=>{
-									test()
-								}}>Guardar</Button>
-						</Row>
+					
 					</CardBody>
 				</Card>
 			</Container>			

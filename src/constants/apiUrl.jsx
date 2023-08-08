@@ -1,5 +1,5 @@
 const ApiUrls = {
-    base : 'http://localhost/modelsThunder/models/'
+    base : 'http://localhost:8080/modelsThunder/models/'
 }
 
 export default ApiUrls
